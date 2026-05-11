@@ -282,12 +282,19 @@
     <source src="piano.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- STORY NARRATION AUDIO -->
+  <audio id="storyAudio" preload="auto">
+    <source src="page_1.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const guitar = document.getElementById("guitar");
     const piano = document.getElementById("piano");
+    
 
     const guitarAudio = document.getElementById("guitarAudio");
     const pianoAudio = document.getElementById("pianoAudio");
+    const storyAudio = document.getElementById("storyAudio");
 
     const musicNotes = document.getElementById("musicNotes");
     const storyText = document.getElementById("storyText");
@@ -357,32 +364,27 @@
 
     });
 
-    /* TEXT TO SPEECH */
-    const speechText = `
-      In a cozy coffee shop,
-      Piano plink plink and
-      Guitar pluck pluck
-      loved making music together.
-    `;
+    /* PLAY STORY AUDIO */
+    function playStory() {
 
-    function speakStory() {
+      // Stop any currently playing audio
+      storyAudio.pause();
+      storyAudio.currentTime = 0;
 
-      window.speechSynthesis.cancel();
-
-      const speech = new SpeechSynthesisUtterance(speechText);
-
-      speech.rate = 0.9;
-      speech.pitch = 1;
-      speech.volume = 1;
-
-      window.speechSynthesis.speak(speech);
+      // Play the story narration audio file
+      storyAudio.play();
     }
 
-    /* HOVER SPEAK */
-    storyText.addEventListener("mouseenter", speakStory);
+    /* HOVER TO PLAY STORY */
+    storyText.addEventListener("mouseenter", playStory);
 
-    /* MOBILE TAP SPEAK */
-    storyText.addEventListener("click", speakStory);
+    /* CLICK TO PLAY STORY (for mobile) */
+    storyText.addEventListener("click", playStory);
+
+    /* Reset audio when it ends */
+    storyAudio.addEventListener('ended', function () {
+      storyAudio.currentTime = 0;
+    });
   </script>
 
 </body>

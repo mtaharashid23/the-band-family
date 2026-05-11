@@ -233,9 +233,37 @@
       }
     }
 
+    .crowd-btn {
+      position: absolute;
+      bottom: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      
+      padding: 12px 30px;
+      font-size: clamp(14px, 2vw, 22px);
+      font-family: 'Patrick Hand', cursive;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff6b9d, #ff4fa0);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 15px rgba(255, 75, 160, 0.3);
+      user-select: none;
+    }
+
+    .crowd-btn:hover {      
+      box-shadow: 0 6px 20px rgba(255, 75, 160, 0.5);
+    }
+
+    .crowd-btn:active {      
+    }
+
     .hint {
       position: absolute;
-      bottom: 3%;
+      bottom: 12%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
@@ -310,24 +338,31 @@
       🎵 Hover text • Click instruments 🎵
     </div>
 
+    <button class="crowd-btn" id="crowdBtn">Crowd</button>
+
   </div>
 
   <!-- AUDIO FILES -->
   <audio id="guitarAudio" preload="auto">
-    <source src="guitar.mp3" type="audio/mpeg">
+    <source src="band-page.mp3" type="audio/mpeg">
   </audio>
 
   <audio id="trumpetAudio" preload="auto">
-    <source src="trumpet.mp3" type="audio/mpeg">
+    <source src="band-page.mp3" type="audio/mpeg">
   </audio>
 
   <audio id="pianoAudio" preload="auto">
-    <source src="piano.mp3" type="audio/mpeg">
+    <source src="band-page.mp3" type="audio/mpeg">
   </audio>
 
   <!-- STORY NARRATION AUDIO -->
   <audio id="storyAudio" preload="auto">
-    <source src="story-narration.mp3" type="audio/mpeg">
+    <source src="page_3.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- CROWD AUDIO -->
+  <audio id="crowdAudio" preload="auto">
+    <source src="crowd.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -342,6 +377,8 @@
 
     const musicNotes = document.getElementById("musicNotes");
     const storyText = document.getElementById("storyText");
+    const crowdBtn = document.getElementById("crowdBtn");
+    const crowdAudio = document.getElementById("crowdAudio");
 
     function createNotes(x, y) {
 
@@ -440,6 +477,12 @@
     /* Reset audio when it ends */
     storyAudio.addEventListener('ended', function () {
       storyAudio.currentTime = 0;
+    });
+
+    /* CROWD BUTTON CLICK */
+    crowdBtn.addEventListener("click", () => {
+      crowdAudio.currentTime = 0;
+      crowdAudio.play();
     });
   </script>
 

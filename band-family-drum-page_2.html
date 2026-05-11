@@ -133,6 +133,10 @@
       animation: pianoDance 0.8s ease;
     }
 
+    .trumpet.playing {
+      animation: trumpetShake 0.6s ease;
+    }
+
     @keyframes guitarDance {
 
       0%,
@@ -154,6 +158,50 @@
 
       80% {
         transform: rotate(4deg);
+      }
+    }
+
+    @keyframes trumpetShake {
+
+      0%,
+      100% {
+        transform: translateX(0) rotate(0deg);
+      }
+
+      10% {
+        transform: translateX(-4px) rotate(-3deg);
+      }
+
+      20% {
+        transform: translateX(4px) rotate(3deg);
+      }
+
+      30% {
+        transform: translateX(-4px) rotate(-3deg);
+      }
+
+      40% {
+        transform: translateX(4px) rotate(3deg);
+      }
+
+      50% {
+        transform: translateX(-3px) rotate(-2deg);
+      }
+
+      60% {
+        transform: translateX(3px) rotate(2deg);
+      }
+
+      70% {
+        transform: translateX(-2px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translateX(2px) rotate(1deg);
+      }
+
+      90% {
+        transform: translateX(-1px) rotate(0deg);
       }
     }
 
@@ -303,14 +351,20 @@
     <source src="piano.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- STORY NARRATION AUDIO -->
+  <audio id="storyAudio" preload="auto">
+    <source src="page_2.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const guitar = document.getElementById("guitar");
     const piano = document.getElementById("piano");
-    const trumpet = document.getElementById("trumpet");
+    const trumpet = document.getElementById("trumpet");    
 
     const guitarAudio = document.getElementById("guitarAudio");
     const pianoAudio = document.getElementById("pianoAudio");
     const trumpetAudio = document.getElementById("trumpetAudio");
+    const storyAudio = document.getElementById("storyAudio");
 
     const musicNotes = document.getElementById("musicNotes");
     const storyText = document.getElementById("storyText");
@@ -396,32 +450,27 @@
 
     });
 
-    /* TEXT TO SPEECH */
-    const speechText = `
-Their songs were warm and happy.
-Soon Trumpet toot toot
-joined their band
-and their family.
-`;
+    /* PLAY STORY AUDIO */
+    function playStory() {
 
-    function speakStory() {
+      // Stop any currently playing audio
+      storyAudio.pause();
+      storyAudio.currentTime = 0;
 
-      window.speechSynthesis.cancel();
-
-      const speech = new SpeechSynthesisUtterance(speechText);
-
-      speech.rate = 0.9;
-      speech.pitch = 1;
-      speech.volume = 1;
-
-      window.speechSynthesis.speak(speech);
+      // Play the story narration audio file
+      storyAudio.play();
     }
 
-    /* HOVER SPEAK */
-    storyText.addEventListener("mouseenter", speakStory);
+    /* HOVER TO PLAY STORY */
+    storyText.addEventListener("mouseenter", playStory);
 
-    /* MOBILE TAP SPEAK */
-    storyText.addEventListener("click", speakStory);
+    /* CLICK TO PLAY STORY (for mobile) */
+    storyText.addEventListener("click", playStory);
+
+    /* Reset audio when it ends */
+    storyAudio.addEventListener('ended', function () {
+      storyAudio.currentTime = 0;
+    });
   </script>
 
 </body>
