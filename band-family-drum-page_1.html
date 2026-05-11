@@ -272,12 +272,14 @@
   </div>
 
   <!-- AUDIO -->
-  <audio id="guitarAudio">
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8c8a73467.mp3" type="audio/mpeg">
+  <!-- GUITAR AUDIO -->
+  <audio id="guitarAudio" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3" type="audio/mpeg">
   </audio>
 
-  <audio id="pianoAudio">
-    <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_2708b7b4d8.mp3" type="audio/mpeg">
+  <!-- PIANO AUDIO -->
+  <audio id="pianoAudio" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/950/950-preview.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -381,7 +383,6 @@
 
     /* MOBILE TAP SPEAK */
     storyText.addEventListener("click", speakStory);
-
   </script>
 
 </body>
