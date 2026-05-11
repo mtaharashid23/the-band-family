@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music Friends Story</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Patrick+Hand&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f6e5d6;
+      overflow: hidden;
+      font-family: 'Patrick Hand', cursive;
+      padding: 20px;
+    }
+
+    .book-page {
+      position: relative;
+      width: min(92vw, 900px);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 18px;
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.18),
+        inset 0 0 40px rgba(255, 255, 255, 0.15);
+    }
+
+    /* KEEP YOUR ORIGINAL BACKGROUND */
+    .background {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* STORY TEXT */
+    .story-text {
+      position: absolute;
+      top: 7%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 82%;
+      text-align: center;
+      z-index: 20;
+
+      font-family: Georgia, serif;
+      font-weight: 700;
+      line-height: 1.28;
+      color: #1e120d;
+
+      font-size: clamp(20px, 3vw, 42px);
+
+      cursor: pointer;
+    }
+
+    .story-text span {
+      display: inline-block;
+      transition: 0.3s ease;
+    }
+
+    .story-text:hover span {
+      transform: translateY(-2px);
+    }
+
+    /* GUITAR */
+    .guitar {
+      position: absolute;
+      bottom: 15%;
+      left: 10%;
+      width: 16%;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* TRUMPET */
+    .trumpet {
+      position: absolute;
+      bottom: 24%;
+      left: 33%;
+      width: 8%;
+      z-index: 11;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* PIANO */
+    .piano {
+      position: absolute;
+      bottom: 13%;
+      left: 63%;
+      transform: translateX(-50%);
+      width: 36%;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .guitar:hover {
+      transform: scale(1.05) rotate(-3deg);
+    }
+
+    .piano:hover {
+      transform: translateX(-50%) scale(1.03);
+    }
+
+    /* ANIMATION */
+    .guitar.playing {
+      animation: guitarDance 0.8s ease;
+    }
+
+    .piano.playing {
+      animation: pianoDance 0.8s ease;
+    }
+
+    .trumpet.playing {
+      animation: trumpetShake 0.6s ease;
+    }
+
+    @keyframes guitarDance {
+
+      0%,
+      100% {
+        transform: rotate(0deg);
+      }
+
+      20% {
+        transform: rotate(-10deg);
+      }
+
+      40% {
+        transform: rotate(8deg);
+      }
+
+      60% {
+        transform: rotate(-6deg);
+      }
+
+      80% {
+        transform: rotate(4deg);
+      }
+    }
+
+    @keyframes trumpetShake {
+
+      0%,
+      100% {
+        transform: translateX(0) rotate(0deg);
+      }
+
+      10% {
+        transform: translateX(-4px) rotate(-3deg);
+      }
+
+      20% {
+        transform: translateX(4px) rotate(3deg);
+      }
+
+      30% {
+        transform: translateX(-4px) rotate(-3deg);
+      }
+
+      40% {
+        transform: translateX(4px) rotate(3deg);
+      }
+
+      50% {
+        transform: translateX(-3px) rotate(-2deg);
+      }
+
+      60% {
+        transform: translateX(3px) rotate(2deg);
+      }
+
+      70% {
+        transform: translateX(-2px) rotate(-1deg);
+      }
+
+      80% {
+        transform: translateX(2px) rotate(1deg);
+      }
+
+      90% {
+        transform: translateX(-1px) rotate(0deg);
+      }
+    }
+
+    @keyframes pianoDance {
+
+      0%,
+      100% {
+        transform: translateX(-50%) rotate(0deg);
+      }
+
+      25% {
+        transform: translateX(-50%) rotate(-4deg);
+      }
+
+      50% {
+        transform: translateX(-50%) rotate(4deg);
+      }
+
+      75% {
+        transform: translateX(-50%) rotate(-2deg);
+      }
+    }
+
+    /* MUSIC NOTES */
+    .music-notes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      overflow: hidden;
+    }
+
+    .note {
+      position: absolute;
+      font-size: clamp(24px, 3vw, 42px);
+      animation: floatNote 1.8s linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes floatNote {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5) rotate(0deg);
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-160px) scale(1.2) rotate(25deg);
+      }
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 3%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+
+      color: rgba(0, 0, 0, 0.45);
+      font-size: clamp(12px, 1.5vw, 18px);
+
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @media(max-width:768px) {
+
+      .guitar {
+        width: 18%;
+        left: 20%;
+        bottom: 20%;
+      }
+
+      .piano {
+        width: 45%;
+        bottom: 18%;
+      }
+
+      .story-text {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="book-page">
+
+    <!-- YOUR ORIGINAL BACKGROUND -->
+    <img class="background" src="page_2.png" alt="background">
+
+    <!-- STORY TEXT -->
+    <div class="story-text" id="storyText">
+      <span>Their songs were warm and happy.</span><br>
+      <span>Soon... Trumpet “toot toot”</span><br>
+      <span>joined their band...</span><br>
+      <span>and their family.</span>
+    </div>
+
+    <!-- GUITAR -->
+    <img src="guitar.png" class="guitar" id="guitar" alt="guitar">
+
+    <!-- TRUMPET -->
+    <img src="trumpet.png" class="trumpet" id="trumpet" alt="trumpet">
+
+    <!-- PIANO -->
+    <img src="piano.png" class="piano" id="piano" alt="piano">    
+
+  </div>  
+  <!-- STORY NARRATION AUDIO -->
+  <audio id="storyAudio" preload="auto">
+    <source src="page_2.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>    
+    const storyText = document.getElementById("storyText");    
+    const storyAudio = document.getElementById("storyAudio");
+
+    /* PLAY STORY AUDIO */
+    function playStory() {
+
+      // Stop any currently playing audio
+      storyAudio.pause();
+      storyAudio.currentTime = 0;
+
+      // Play the story narration audio file
+      storyAudio.play();
+    }
+
+    /* HOVER TO PLAY STORY */
+    storyText.addEventListener("mouseenter", playStory);
+
+    /* CLICK TO PLAY STORY (for mobile) */
+    storyText.addEventListener("click", playStory);
+
+    /* Reset audio when it ends */
+    storyAudio.addEventListener('ended', function () {
+      storyAudio.currentTime = 0;
+    });
+  </script>
+
+</body>
+
+</html>
